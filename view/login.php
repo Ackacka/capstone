@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Template - Log In/Registration</title>
+        <title>MathQuiz - Log In/Registration</title>
         <link rel="stylesheet" type="text/css" href="main.css"/>
     </head>
     <body>
