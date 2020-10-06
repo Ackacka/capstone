@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <title>MathWhiz</title>
-        <link rel="stylesheet" type="text/css" href="main.css"/>
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
     </head>
     <body>
         <h2>Did you hear about the mathematician who is afraid of negative numbers?</h2>

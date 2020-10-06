@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <title>MathWhiz</title>
-        <link rel="stylesheet" type="text/css" href="frontPage.css"/>
+        <link rel="stylesheet" type="text/css" href="css/frontPage.css"/>
     </head>
     <body>
         <h2>Welcome</h2><br>
