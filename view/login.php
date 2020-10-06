@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Template - Log In/Registration</title>
+        <title>MathQuiz - Log In/Registration</title>
         <link rel="stylesheet" type="text/css" href="css/login.css"/>
         <script src="https://kit.fontawesome.com/9c754b173e.js" crossorigin="anonymous"></script>
     </head>

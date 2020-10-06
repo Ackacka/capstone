@@ -4,7 +4,7 @@ abstract class User {
 
     private $userID, $firstName, $lastName, $username, $password;
 
-    public function __construct($userID, $firstName, $lastName, $username, $password) {
+    public function __construct($firstName, $lastName, $username, $password) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->username = $username;

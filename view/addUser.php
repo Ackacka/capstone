@@ -12,15 +12,21 @@
 
     <fieldset> 
     <legend>User Registration</legend>
+    
+        <label>First name:  </label>
+        <input type="text" name="firstName" value="<?php echo $firstName; ?>">
+        <span class="errorMsg"> <?php echo $firstNameError ?></span> 
+        <br> 
+        
+        <label>Last name:  </label>
+        <input type="text" name="lastName" value="<?php echo $lastName; ?>">
+        <span class="errorMsg"> <?php echo $lastNameError ?></span> 
+        <br>    
+    
         <label>Username:  </label>
         <input type="text" name="username" value="<?php echo $username; ?>">
         <span class="errorMsg"> <?php echo $usernameError ?></span> 
-        <br>
-        
-        <label>Email: </label>
-        <input type="text" name="email" value="<?php echo $email; ?>">
-        <span class="errorMsg"> <?php echo $emailError ?></span> 
-        <br>
+        <br>        
         
         <label>Password: </label>
         <input type="password" name="password" value="<?php echo $password; ?>">
@@ -30,6 +36,13 @@
         <br><span class="errorMsg"><?php echo $pwdNum?></span>
         <br><span class="errorMsg"><?php echo $pwdNonword?></span>   
         <br>        
+        
+        <input  type="radio" id="rbStudent" name="userType" value="student" checked>
+        <label for="rbStudent">Student</label><br>
+        <input  type="radio" id="rbTeacher" name="userType" value="teacher" disabled>
+        <label for="rbTeacher">Teacher</label><br>
+        <input  type="radio" id="rbParent" name="userType" value="parent" disabled>
+        <label for="rbParent">Parent</label><br>
     </fieldset>
         <br>
     <input type="submit" value="Submit">

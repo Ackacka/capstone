@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <?php 
+//var_dump($error_message);
 $lifetime = 60 * 60 * 24 * 14;    // 2 weeks in seconds
 session_set_cookie_params($lifetime, '/');
 session_start();
 
 require_once './model/database.php';
 require_once './model/user.php';
+require_once './model/student.php';
 require_once './model/userDB.php';
 
 if (empty($_SESSION['loginUser'])) {
@@ -51,7 +53,7 @@ switch ($action) {
             include './view/mainPage.php';
             die();
             break;
-            //more stuff if successful password match
+            
         } else {
             $passwordError = "Password is invalid.";
         }
@@ -76,8 +78,17 @@ switch ($action) {
         if (!isset($username)) {
             $username = '';
         }
-        if (!isset($email)) {
-            $email = '';
+        if (!isset($firstName)) {
+            $firstName = '';
+        }
+        if (!isset($lastName)) {
+            $lastName = '';
+        }
+        if (!isset($firstNameError)) {
+            $firstNameError = '';
+        }
+        if (!isset($lastNameError)) {
+            $lastNameError = '';
         }
         if (!isset($password)) {
             $password = '';
@@ -107,9 +118,11 @@ switch ($action) {
         die();
         break;
     case "addUser":
-        $username = filter_input(INPUT_POST, 'username');
-        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $firstName = filter_input(INPUT_POST, 'firstName');
+        $lastName = filter_input(INPUT_POST, 'lastName');
+        $username = filter_input(INPUT_POST, 'username');        
         $password = filter_input(INPUT_POST, 'password');
+        $userType = filter_input(INPUT_POST, 'userType');
         $_SESSION['loginUser'] = $username;
 
         $usernameError = '';
@@ -123,20 +136,31 @@ switch ($action) {
             $usernameError = 'Username already taken.';
         } else {
             $usernameError = '';
+        } 
+        
+        $firstNameError = '';
+        if ($firstName == '') { // || strlen(trim($userName) <= 0))
+            $firstNameError = 'First name is required.';
+        } else if (strlen($lastName) > 60) {
+            $firstNameError = 'First name must be less than 60 characters.';
+        } else {
+            $firstNameError = '';
         }
-
-        $emailError = '';
-        if ($email == '') { //|| strlen(trim($email) <= 0))
-            $emailError = 'Must be a valid email.';
-        } else if (!UserDB::uniqueEmailTest($email) === false) {
-            $emailError = 'Email already in use.';
-        }
+        
+        $lastNameError = '';
+        if ($lastName == '') { // || strlen(trim($userName) <= 0))
+            $lastNameError = 'Last name is required.';
+        } else if (strlen($lastName) > 60) {
+            $lastNameError = 'Last name must be less than 60 characters.';
+        } else {
+            $lastNameError = '';
+        }    
 
         $pwdCapital = "Must have a capital letter";
         $pwdLower = "Must have a lower case letter";
         $pwdNum = "Must include a number";
         $pwdNonword = "Must have a special character";
-        $pwdLength = "Must be at least 12 characters long";
+        $pwdLength = "Must be at least 8 characters long";
         $counter = 0;
         $password_valid = true;
 
@@ -167,7 +191,7 @@ switch ($action) {
             $passwordError = "";
             $password_valid = true;
         }
-        if (strlen($password) < 12) {
+        if (strlen($password) < 8) {
             $passwordError = $pwdLength;
             $password_valid = false;
         } else {
@@ -180,14 +204,17 @@ switch ($action) {
 
 
         //write user information to database
-        if ($usernameError !== '' || $emailError !== '' || $passwordError !== '') {
+        if ($usernameError !== '' || $passwordError !== '') {
             include("./view/addUser.php");
             die();
         } else {
-            $user = new User($username, $email, $pwdHash);
-            UserDB::addUser($user);
-            include("./view/confirmation.php");
-            die();
+            if ($userType === "student") {
+                $user = new Student($firstName, $lastName, $username, $pwdHash, $userType);
+                UserDB::addUser($user);
+                include("./view/confirmation.php");
+                die();
+            }
+            
         }
         break;
     case "logOut":
