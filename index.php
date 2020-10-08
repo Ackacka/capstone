@@ -27,10 +27,6 @@ switch ($action) {
         include 'view/frontPage.php';
         die();
         break;
-    case "mainPage":
-        include 'view/mainPage.php';
-        die();
-        break;
     case "loginPage":
         if(!isset($usernameError)){$usernameError = '';}
         if(!isset($passwordError)){$passwordError = '';}
