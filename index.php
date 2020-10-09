@@ -46,7 +46,7 @@ switch ($action) {
             $_SESSION['loginUser'] = $username;
             $user = UserDB::getUserByUsername($username);
             
-            include './view/mainPage.php';
+            include './view/dashboard.php';
             die();
             break;
             
@@ -68,6 +68,16 @@ switch ($action) {
         }
 
         include './view/login.php';
+        die();
+        break;
+    case "dashboard":
+        
+        include './view/dashboard.php';
+        die();
+        break;
+    case "quizPage":
+        
+        include './view/quizPage.php';
         die();
         break;
     case "showAddUser":

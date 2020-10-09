@@ -14,27 +14,27 @@
     <legend>User Registration</legend>
     
         <label>First name:  </label>
-        <input type="text" name="firstName" value="<?php echo $firstName; ?>">
-        <span class="errorMsg"> <?php echo $firstNameError ?></span> 
+        <input type="text" name="firstName" value="<?php echo htmlspecialchars($firstName); ?>">
+        <span class="errorMsg"> <?php echo htmlspecialcharsv($firstNameError) ?></span> 
         <br> 
         
         <label>Last name:  </label>
-        <input type="text" name="lastName" value="<?php echo $lastName; ?>">
-        <span class="errorMsg"> <?php echo $lastNameError ?></span> 
+        <input type="text" name="lastName" value="<?php echo htmlspecialchars($lastName); ?>">
+        <span class="errorMsg"> <?php echo htmlspecialchars($lastNameError) ?></span> 
         <br>    
     
         <label>Username:  </label>
-        <input type="text" name="username" value="<?php echo $username; ?>">
-        <span class="errorMsg"> <?php echo $usernameError ?></span> 
+        <input type="text" name="username" value="<?php echo htmlspecialchars($username); ?>">
+        <span class="errorMsg"> <?php echo htmlspecialchars($usernameError) ?></span> 
         <br>        
         
         <label>Password: </label>
-        <input type="password" name="password" value="<?php echo $password; ?>">
-        <span class="errorMsg"> <?php echo $passwordError ?></span> 
-        <br><span class="errorMsg"><?php echo $pwdCapital?></span>
-        <br><span class="errorMsg"><?php echo $pwdLower?></span>
-        <br><span class="errorMsg"><?php echo $pwdNum?></span>
-        <br><span class="errorMsg"><?php echo $pwdNonword?></span>   
+        <input type="password" name="password" value="<?php echo htmlspecialchars($password); ?>">
+        <span class="errorMsg"> <?php echo htmlspecialchars($passwordError) ?></span> 
+        <br><span class="errorMsg"><?php echo htmlspecialchars($pwdCapital)?></span>
+        <br><span class="errorMsg"><?php echo htmlspecialchars($pwdLower)?></span>
+        <br><span class="errorMsg"><?php echo htmlspecialchars($pwdNum)?></span>
+        <br><span class="errorMsg"><?php echo htmlspecialchars($pwdNonword)?></span>   
         <br>        
         
         <input  type="radio" id="rbStudent" name="userType" value="student" checked>

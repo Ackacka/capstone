@@ -15,10 +15,10 @@
 <main>
     <h1>User Registration Successful</h1>
     
-    <h4><?php echo "Thank you " . $user->getUsername() . ".<br>" . "You have been registered." ?></h4>
+    <h4><?php echo "Thank you " . htmlspecialchars($user->getUsername()) . ".<br>" . "You have been registered." ?></h4>
     <br>
     
-    <p><a href="index.php?action=mainPage">Back to the home page</a></p>   
+    <p><a href="index.php?action=loginPage">Back to the home page</a></p>   
     </main>    
 </body>
 </html>
