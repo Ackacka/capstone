@@ -26,9 +26,9 @@ class UserDB {
     public static function getUserByUserName($username) {
         $db = Database::getDB();
         $query = 'SELECT * FROM Users
-                  WHERE username = :User_name';
+                  WHERE username = :username';
         $statement = $db->prepare($query);
-        $statement->bindValue(":User_name", $username);
+        $statement->bindValue(":username", $username);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();

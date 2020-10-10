@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Template</title>
-        <link rel="stylesheet" type="text/css" href="main.css"/>
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
     </head>
     <body>
         <h1>Account Sign Up</h1>
@@ -15,7 +15,7 @@
     
         <label>First name:  </label>
         <input type="text" name="firstName" value="<?php echo htmlspecialchars($firstName); ?>">
-        <span class="errorMsg"> <?php echo htmlspecialcharsv($firstNameError) ?></span> 
+        <span class="errorMsg"> <?php echo htmlspecialchars($firstNameError) ?></span> 
         <br> 
         
         <label>Last name:  </label>
