@@ -12,19 +12,24 @@
         <script src="https://kit.fontawesome.com/9c754b173e.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="container">            
+        
+        <div class="container">    
+          
 	<img src="images/student.png"/>
 		<form method=""post" action="index.php">
                     <input type="hidden" name="action" value="userLogin">
 			<div class="form-input">                           
-                            <input type="text" name="username" value="<?php echo $username; ?>" placeholder="Enter Your User Name"/>
-                            <span class="errorMsg"> <?php echo $usernameError ?></span> 
+                            <input type="text" name="username" value="<?php echo htmlspecialchars($username); ?>" placeholder="Enter Your User Name"/>    
 			</div>
+                    
 			<div class="form-input">
-				<input type="password" name="password" placeholder="Enter Your Password"/>
-                                <span class="errorMsg"> <?php echo $passwordError ?></span>
+				<input type="password" name="password" placeholder="Enter Your Password"/>                              
 			</div>
-			<input type="submit" type="submit" value="LOGIN" class="btn-login"/>                       
+                    <span style="color: red;"> <?php echo htmlspecialchars($usernameError) ?></span>
+                    <br>
+                    <span style="color: red;"> <?php echo htmlspecialchars($passwordError) ?></span>
+                    <br><br>
+		<input type="submit" type="submit" value="LOGIN" class="btn-login"/>                       
 		</form>
         
                 <p><a href="index.php?action=showAddUser">Register</a><br></p>

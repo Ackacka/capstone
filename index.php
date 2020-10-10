@@ -27,10 +27,6 @@ switch ($action) {
         include 'view/frontPage.php';
         die();
         break;
-    case "mainPage":
-        include 'view/mainPage.php';
-        die();
-        break;
     case "loginPage":
         if(!isset($usernameError)){$usernameError = '';}
         if(!isset($passwordError)){$passwordError = '';}
@@ -50,7 +46,7 @@ switch ($action) {
             $_SESSION['loginUser'] = $username;
             $user = UserDB::getUserByUsername($username);
             
-            include './view/mainPage.php';
+            include './view/dashboard.php';
             die();
             break;
             
@@ -72,6 +68,16 @@ switch ($action) {
         }
 
         include './view/login.php';
+        die();
+        break;
+    case "dashboard":
+        
+        include './view/dashboard.php';
+        die();
+        break;
+    case "quizPage":
+        
+        include './view/quizPage.php';
         die();
         break;
     case "showAddUser":
