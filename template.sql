@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2020 at 07:04 PM
+-- Generation Time: Oct 13, 2020 at 01:21 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -28,6 +28,9 @@ USE `template`;
 --
 -- Table structure for table `assessment`
 --
+-- Creation: Oct 12, 2020 at 11:16 PM
+-- Last update: Oct 12, 2020 at 11:16 PM
+--
 
 DROP TABLE IF EXISTS `assessment`;
 CREATE TABLE `assessment` (
@@ -37,7 +40,8 @@ CREATE TABLE `assessment` (
   `questionsCorrect` int(100) NOT NULL,
   `questionsWrong` int(100) NOT NULL,
   `totalScore` int(100) NOT NULL,
-  `dateTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `startDateTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `endDateTime` datetime NOT NULL DEFAULT current_timestamp(),
   `level` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -45,6 +49,8 @@ CREATE TABLE `assessment` (
 
 --
 -- Table structure for table `assessmenttype`
+--
+-- Creation: Oct 10, 2020 at 04:51 PM
 --
 
 DROP TABLE IF EXISTS `assessmenttype`;
@@ -58,6 +64,8 @@ CREATE TABLE `assessmenttype` (
 --
 -- Table structure for table `classroom`
 --
+-- Creation: Oct 10, 2020 at 03:51 PM
+--
 
 DROP TABLE IF EXISTS `classroom`;
 CREATE TABLE `classroom` (
@@ -68,7 +76,22 @@ CREATE TABLE `classroom` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `drill`
+--
+-- Creation: Oct 12, 2020 at 11:08 PM
+--
+
+DROP TABLE IF EXISTS `drill`;
+CREATE TABLE `drill` (
+  `assessmentID` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `questions`
+--
+-- Creation: Oct 10, 2020 at 04:54 PM
 --
 
 DROP TABLE IF EXISTS `questions`;
@@ -83,7 +106,23 @@ CREATE TABLE `questions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `quiz`
+--
+-- Creation: Oct 12, 2020 at 11:12 PM
+--
+
+DROP TABLE IF EXISTS `quiz`;
+CREATE TABLE `quiz` (
+  `assessmentID` int(255) NOT NULL,
+  `passFail` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roletype`
+--
+-- Creation: Oct 10, 2020 at 02:46 AM
 --
 
 DROP TABLE IF EXISTS `roletype`;
@@ -107,6 +146,8 @@ INSERT INTO `roletype` (`roleTypeID`, `roleTypeName`) VALUES
 --
 -- Table structure for table `students`
 --
+-- Creation: Oct 10, 2020 at 04:57 PM
+--
 
 DROP TABLE IF EXISTS `students`;
 CREATE TABLE `students` (
@@ -120,6 +161,8 @@ CREATE TABLE `students` (
 --
 -- Table structure for table `teachers`
 --
+-- Creation: Oct 10, 2020 at 04:56 PM
+--
 
 DROP TABLE IF EXISTS `teachers`;
 CREATE TABLE `teachers` (
@@ -130,7 +173,23 @@ CREATE TABLE `teachers` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `test`
+--
+-- Creation: Oct 12, 2020 at 11:10 PM
+--
+
+DROP TABLE IF EXISTS `test`;
+CREATE TABLE `test` (
+  `assessmentID` int(255) NOT NULL,
+  `passFail` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
+--
+-- Creation: Oct 10, 2020 at 04:56 PM
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -176,10 +235,22 @@ ALTER TABLE `classroom`
   ADD KEY `fk_classroom_teachers` (`userID`);
 
 --
+-- Indexes for table `drill`
+--
+ALTER TABLE `drill`
+  ADD PRIMARY KEY (`assessmentID`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
   ADD PRIMARY KEY (`questionID`);
+
+--
+-- Indexes for table `quiz`
+--
+ALTER TABLE `quiz`
+  ADD PRIMARY KEY (`assessmentID`);
 
 --
 -- Indexes for table `roletype`
@@ -200,6 +271,12 @@ ALTER TABLE `students`
 ALTER TABLE `teachers`
   ADD PRIMARY KEY (`userID`),
   ADD KEY `fk_teachers_classroom` (`classroomID`);
+
+--
+-- Indexes for table `test`
+--
+ALTER TABLE `test`
+  ADD PRIMARY KEY (`assessmentID`);
 
 --
 -- Indexes for table `users`
@@ -261,6 +338,18 @@ ALTER TABLE `classroom`
   ADD CONSTRAINT `fk_classroom_teachers` FOREIGN KEY (`userID`) REFERENCES `teachers` (`userID`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `drill`
+--
+ALTER TABLE `drill`
+  ADD CONSTRAINT `fk_drill_assessment` FOREIGN KEY (`assessmentID`) REFERENCES `assessment` (`assessmentID`);
+
+--
+-- Constraints for table `quiz`
+--
+ALTER TABLE `quiz`
+  ADD CONSTRAINT `fk_quiz_assessment` FOREIGN KEY (`assessmentID`) REFERENCES `assessment` (`assessmentID`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `students`
 --
 ALTER TABLE `students`
@@ -273,6 +362,12 @@ ALTER TABLE `students`
 ALTER TABLE `teachers`
   ADD CONSTRAINT `fk_teachers_classroom` FOREIGN KEY (`classroomID`) REFERENCES `classroom` (`classroomID`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_teachers_users` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `test`
+--
+ALTER TABLE `test`
+  ADD CONSTRAINT `fk_test_assessment` FOREIGN KEY (`assessmentID`) REFERENCES `assessment` (`assessmentID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users`
