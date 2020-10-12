@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <?php 
+
 var_dump($error_message);
 $lifetime = 60 * 60 * 24 * 14;    // 2 weeks in seconds
-session_set_cookie_params($lifetime, '/');
-session_start();
+//session_set_cookie_params($lifetime, '/');
+//session_start();
+if(session_id() == ''){
+      session_start();
+      setcookie(session_name(),session_id(),time()+$lifetime);
+   }
 
 require_once './model/database.php';
 require_once './model/user.php';
@@ -112,9 +117,9 @@ switch ($action) {
         if (!isset($usernameError)) {
             $usernameError = '';
         }
-        if (!isset($emailError)) {
-            $emailError = '';
-        }
+//        if (!isset($emailError)) {
+//            $emailError = '';
+//        }
         if (!isset($passwordError)) {
             $passwordError = '';
         }
@@ -140,6 +145,16 @@ switch ($action) {
         $password = filter_input(INPUT_POST, 'password');
         $userType = filter_input(INPUT_POST, 'userType');
         $_SESSION['loginUser'] = $username;
+        
+        if ($userType === "student") {
+                $roleTypeID = 1;
+            }elseif($userType === "teacher") {
+                $roleTypeID = 2;
+            }elseif ($userType === "parent") {
+                $roleTypeID = 3;
+            }else {
+                $roleTypeID = 4;
+            }
 
         $usernameError = '';
         if ($username == '') { // || strlen(trim($userName) <= 0))
@@ -224,12 +239,12 @@ switch ($action) {
             include("./view/addUser.php");
             die();
         } else {
-            if ($userType === "student") {
-                $user = new Student($firstName, $lastName, $username, $pwdHash, $userType);
+            
+                $user = new Student($firstName, $lastName, $username, $pwdHash, $roleTypeID);
                 UserDB::addUser($user);
                 include("./view/confirmation.php");
                 die();
-            }
+            
             
         }
         break;

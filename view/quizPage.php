@@ -9,37 +9,7 @@
         
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightgreen;">
-            <a class="navbar-brand" href="#">MathWhiz</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?action=dashboard">MyDashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?action=quizPage">Quiz</a>
-                    </li>
-                </ul>
-<!--                <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=loginPage"><i class="fas fa-sign-out-alt"></i>Logout</a> 
-                </li>
-                </ul>-->
-                <li  class="form-inline my-2 my-lg-0 navbar-nav nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Welcome!
-<!--                       Hello <?php echo htmlspecialchars($user["UserName"]) ?>!-->
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="index.php?action=loginPage"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
-                    </div>
-                </li>
-            </div>
-        </nav>
+        <?php include_once('navigation.php'); ?>
         
 
 <!-- Page content -->
@@ -50,36 +20,29 @@
             <div class="border">
                 <div class="question bg-white p-3 border-bottom">
                     <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                        <h4>Quiz Name</h4><span>(5 of 20)</span>
+                        <h4>Quiz Level(Insert Quiz Level)</h4>
+<!--                        <span>(<?php echo htmlspecialchars($i) ?> of <?php echo htmlspecialchars ($numberOfQuestions) ?>)</span>-->
+                        <span>insert question number out of total questions (1 of 20)</span>
                     </div>
                 </div>
                 <div class="question bg-white p-3 border-bottom">
                     <div class="d-flex flex-row align-items-center question-title">
-                        <h3 class="text-danger">Q.</h3>
+                        <h3 class="text-danger">Q.(insert question number)</h3>
                         <h5 class="mt-1 ml-2">Insert quiz question here?</h5>
                     </div>
                     <div class="ans ml-2">
-                        <label class="radio"> <input type="radio" name="answer" value="ans1"> <span>Answer 1</span>
+                       <label> Answer: <input type="text" name="answer" value=""> 
                         </label>
-                    </div>
-                    <div class="ans ml-2">
-                        <label class="radio"> <input type="radio" name="answer" value="ans2"> <span>Answer 2</span>
-                        </label>
-                    </div>
-                    <div class="ans ml-2">
-                        <label class="radio"> <input type="radio" name="answer" value="ans3"> <span>Answer 3</span>
-                        </label>
-                    </div>
-                    <div class="ans ml-2">
-                        <label class="radio"> <input type="radio" name="answer" value="ans4"> <span>Answer 4</span>
-                        </label>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
                     <button class="btn btn-primary d-flex align-items-center btn-danger" type="button">
                         <i class="fa fa-angle-left mt-1 mr-1"></i>&nbsp;Previous</button>
                     <button class="btn btn-primary border-success align-items-center btn-success" type="button">Next
                         <i class="fa fa-angle-right ml-2"></i></button>
+                        
+            <!--        <button class="btn btn-primary border-success align-items-center btn-success" type="submit" name='resultsPage' vaule='<?php echo htmlspecialchars ($quizId); ?>'>Submit
+                        <i class="fa fa-angle-right ml-2"></i></button>-->
                 </div>
             </div>
         </div>

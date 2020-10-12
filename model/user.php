@@ -2,13 +2,14 @@
 
 abstract class User {
 
-    private $userID, $firstName, $lastName, $username, $password;
+    private $userID, $firstName, $lastName, $username, $password, $roleTypeID;
 
-    public function __construct($firstName, $lastName, $username, $password) {
+    public function __construct($firstName, $lastName, $username, $password, $roleTypeID) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->username = $username;
         $this->password = $password;
+        $this->roleTypeID = $roleTypeID;
     }
 
     public function getUserID() {
@@ -30,6 +31,10 @@ abstract class User {
     public function getPassword() {
         return $this->password;
     }
+    
+    public function getRoleTypeID() {
+        return $this->roleTypeID;
+    }
 
     public function setUserID($userID) {
         $this->userID = $userID;
@@ -49,6 +54,10 @@ abstract class User {
 
     public function setPassword($password) {
         $this->password = $password;
+    }
+    
+    public function setRoleTypeID($roleTypeID) {
+        $this->roleTypeID = $roleTypeID;
     }
 
 }

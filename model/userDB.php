@@ -68,20 +68,20 @@ class UserDB {
         $lastName = $user->getLastName();
         $username = $user->getUsername();        
         $password = $user->getPassword();
-        $userRole = $user->getUserRole();
+        $roleTypeID = $user->getRoleTypeID();
 
         try {
             // Add the user to the database  
             $query = 'INSERT INTO users
-                     (firstName, lastName, username, password, userRole)
+                     (firstName, lastName, username, password, roleTypeID)
                   VALUES
-                     (:firstName, :lastName, :username, :password, :userRole)';
+                     (:firstName, :lastName, :username, :password, :roleTypeID)';
             $statement = $db->prepare($query);
             $statement->bindValue(':firstName', $firstName);
             $statement->bindValue(':lastName', $lastName);
             $statement->bindValue(':username', $username);
             $statement->bindValue(':password', $password);
-            $statement->bindValue(':userRole', $userRole);
+            $statement->bindValue(':roleTypeID', $roleTypeID);
             $statement->execute();
             $statement->closeCursor();
         } catch (PDOException $e) {
