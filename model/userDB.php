@@ -25,7 +25,7 @@ class UserDB {
 
     public static function getUserByUserName($username) {
         $db = Database::getDB();
-        $query = 'SELECT * FROM Users
+        $query = 'SELECT * FROM users
                   WHERE username = :username';
         $statement = $db->prepare($query);
         $statement->bindValue(":username", $username);

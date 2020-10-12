@@ -16,7 +16,7 @@
         <div class="container">    
           
 	<img src="images/student.png"/>
-		<form method=""post" action="index.php">
+		<form method="post" action="index.php">
                     <input type="hidden" name="action" value="userLogin">
 			<div class="form-input">                           
                             <input type="text" name="username" value="<?php echo htmlspecialchars($username); ?>" placeholder="Enter Your User Name"/>    

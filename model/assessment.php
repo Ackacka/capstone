@@ -2,18 +2,27 @@
 
 abstract class Assessment {
     private $assessmentID, $assessmentTypeID, $studentID, $questionsCorrect, 
-            $questionsWrong, $start, $end, $level;
+            $questionsWrong, $start, $end, $difficulty, $questions;
     
-    function __construct($assessmentTypeID, $studentID, $questionsCorrect, 
-            $questionsWrong, $start, $end, $level) {
+    function __construct($assessmentTypeID, $studentID, $difficulty, $questions) {
         $this->assessmentTypeID = $assessmentTypeID;
         $this->studentID = $studentID;
         $this->questionsCorrect = $questionsCorrect;
         $this->questionsWrong = $questionsWrong;
         $this->start = $start;
         $this->end = $end;
-        $this->level = $level;
+        $this->difficulty = $difficulty;
+        $this->questions = $questions;
     }
+    
+    function getQuestions() {
+        return $this->questions;
+    }
+
+    function setQuestions($questions): void {
+        $this->questions = $questions;
+    }
+
     function getAssessmentID() {
         return $this->assessmentID;
     }
@@ -42,8 +51,8 @@ abstract class Assessment {
         return $this->end;
     }
 
-    function getLevel() {
-        return $this->level;
+    function getDifficulty() {
+        return $this->difficulty;
     }
 
     function setAssessmentTypeID($assessmentTypeID): void {
@@ -70,8 +79,8 @@ abstract class Assessment {
         $this->end = $end;
     }
 
-    function setLevel($level): void {
-        $this->level = $level;
+    function setDifficulty($difficulty): void {
+        $this->difficulty = $difficulty;
     }
 
     abstract public function getScore();
