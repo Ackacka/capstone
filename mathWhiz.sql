@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `template`
+-- Database: `mathWhiz`
 --
-CREATE DATABASE IF NOT EXISTS `template` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `template`;
+CREATE DATABASE IF NOT EXISTS `mathWhiz` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `mathWhiz`;
 
 -- --------------------------------------------------------
 
@@ -221,6 +221,23 @@ ALTER TABLE `assessment`
   ADD KEY `fk_assessment_assessmentType` (`assessmentTypeID`),
   ADD KEY `fk_assessment_students` (`userID`);
 
+INSERT INTO `questions` (`questionID`, `difficulty`, `category`, `question`, `answer`) VALUES
+(1, '1', 'Addition', '1 + 1', '2'),
+(2, '1', 'Addition', '1 + 2', '3'),
+(3, '1', 'Addition', '2 + 1', '3'),
+(4, '1', 'Addition', '2 + 2', '4'),
+(5, '1', 'Addition', '2 + 3', '5'),
+(6, '1', 'Addition', '3 + 2', '5'),
+(7, '1', 'Addition', '3 + 3', '6'),
+(8, '1', 'Addition', '3 + 4', '7'),
+(9, '1', 'Addition', '4 + 3', '7'),
+(10, '1', 'Addition', '4 + 4', '8'),
+(11, '1', 'Addition', '4 + 5', '9'),
+(12, '1', 'Addition', '5 + 5', '10'),
+(13, '1', 'Addition', '5 + 6', '11'),
+(14, '1', 'Addition', '6 + 6', '12');
+
+
 --
 -- Indexes for table `assessmenttype`
 --
@@ -329,7 +346,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `assessment`
   ADD CONSTRAINT `fk_assessment_assessmentType` FOREIGN KEY (`assessmentTypeID`) REFERENCES `assessmenttype` (`assessmentTypeID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_assessment_students` FOREIGN KEY (`userID`) REFERENCES `students` (`userID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_assessment_students` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `classroom`

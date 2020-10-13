@@ -1,6 +1,6 @@
 <?php
 
-class question {
+class Question {
     
     private $questionID, $difficulty, $category, $question, $answer;
     
@@ -10,7 +10,12 @@ class question {
         $this->question = $question;
         $this->answer = $answer;
     }
-    
+
+    function setQuestionID($questionID): void {
+        $this->questionID = $questionID;
+    }
+
+        
     function getQuestionID() {
         return $this->questionID;
     }

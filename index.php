@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php 
 
-var_dump($error_message);
+//var_dump($error_message);
 $lifetime = 60 * 60 * 24 * 14;    // 2 weeks in seconds
 //session_set_cookie_params($lifetime, '/');
 //session_start();
@@ -16,6 +16,9 @@ require_once './model/student.php';
 require_once './model/userDB.php';
 require_once './model/assessment.php';
 require_once './model/quiz.php';
+require_once './model/quizDB.php';
+require_once './model/question.php';
+require_once './model/questionDB.php';
 
 
 
@@ -87,11 +90,15 @@ switch ($action) {
     case "quizPage":
         $username = $_SESSION['loginUser'];
         $user = UserDB::getUserByUsername($username);
-        var_dump($user);
         $userID = $user['userID'];
-        $now = date('Y-m-d H:i:s');
-        $quiz = new Quiz($userID, 2, 0, 0, $now, null, 1, null);
+        $questions = array();
+        for ($i = 0; $i < 10; $i++){
+            $question = QuestionDB::getRandomQuestion(1, 'Addition');
+            array_push($questions, $question);
+        }
+        $quiz = new Quiz($userID, 1, $questions);
         var_dump($quiz);
+        QuizDB::addQuiz($quiz);
         include './view/quizPage.php';
         die();
         break;

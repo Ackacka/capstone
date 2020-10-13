@@ -4,17 +4,18 @@ abstract class Assessment {
     private $assessmentID, $assessmentTypeID, $studentID, $questionsCorrect, 
             $questionsWrong, $start, $end, $difficulty, $questions;
     
-    function __construct($assessmentTypeID, $studentID, $difficulty, $questions) {
-        $this->assessmentTypeID = $assessmentTypeID;
-        $this->studentID = $studentID;
-        $this->questionsCorrect = $questionsCorrect;
-        $this->questionsWrong = $questionsWrong;
-        $this->start = $start;
-        $this->end = $end;
+    function __construct($studentID, $difficulty, $questions, $assessmentTypeID) {
+        $this->studentID = $studentID;        
         $this->difficulty = $difficulty;
         $this->questions = $questions;
+        $this->assessmentTypeID = $assessmentTypeID;
     }
     
+    function setAssessmentID($assessmentID): void {
+        $this->assessmentID = $assessmentID;
+    }
+
+        
     function getQuestions() {
         return $this->questions;
     }

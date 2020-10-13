@@ -4,11 +4,8 @@
 class Quiz extends Assessment {
     private $passFail;
     
-    public function __construct($studentID,  $questionsCorrect, $questionsWrong,
-            $start, $end, $difficulty, $questions, $passFail) {
-        $this->passFail = $passFail;
-        parent::__construct($assessmentTypeID = 2, $studentID, $questionsCorrect, $questionsWrong,
-                $start, $end, $difficulty, $questions);
+    public function __construct($studentID, $difficulty, $questions) {        
+        parent::__construct($studentID, $difficulty, $questions, 2);
     }
     
     function getPassFail() {

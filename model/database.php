@@ -1,7 +1,7 @@
 <?php
 
 class Database {
-    private static $dsn = 'mysql:host=localhost;dbname=template';
+    private static $dsn = 'mysql:host=localhost;dbname=mathwhiz';
     private static $username = 'root';
     private static $password = '';
     private static $db;
