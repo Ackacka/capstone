@@ -24,22 +24,22 @@
                                     <span>Count Down timer</span>
                                 </div>
                                 <?php for ($i = 0; $i < count($questions); $i++) { ?>
-                                    <?php foreach ($questions as $q) : ?>
+                                    
                                     </div>
                                     <div class="question bg-white p-3 border-bottom">
                                         <div class="d-flex flex-row align-items-center question-title">
                                             <h3 class="text-danger">Q.<?php echo htmlspecialchars($i + 1) ?></h3>
-                                            <h5 class="mt-1 ml-2">&nbsp;<?php echo htmlspecialchars($q->getQuestion()); ?>&nbsp;= ?</h5>
+                                            <h5 class="mt-1 ml-2">&nbsp;<?php echo htmlspecialchars($questions[$i]->getQuestion()); ?>&nbsp;= ?</h5>
                                         </div>
                                         <div class="ans ml-2">
-                                            <label> Answer: <input type="text" name="answer"  value=""></label>
-                                            <input type="hidden" name="correctAnswer" value="<?php echo htmlspecialchars($q->getAnswer()); ?>">
-                                        </div> 
+                                            <label> Answer: <input type="text" name="myanswer"  value=""></label>
+                                            <input type="hidden" name="correctAnswer" value="<?php echo htmlspecialchars($questions[$i]->getAnswer()); ?>">
+                                        </div>
+                                                                                                              
 
-                                        <?php $i++;
-                                    endforeach; ?>
-                                <?php } ?>   
+<?php } ?>   
                             </div>
+                            
 
                             <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
                                 <!--                    <button class="btn btn-primary d-flex align-items-center btn-danger" type="button">
@@ -47,9 +47,10 @@
                                                     <button class="btn btn-primary border-success align-items-center btn-success" type="button">Next
                                                         <i class="fa fa-angle-right ml-2"></i></button>-->
 
-                                <button class="btn btn-primary border-success align-items-center btn-success ml-auto" type="submit" name='totalCorrect' value=''>
-                                    <a style=; href="index.php?action=resultsPage">Submit</a>
+                                <button class="btn btn-primary border-success align-items-center btn-success ml-auto" type="submit" value=''>
+                                                                       <a style=; href="index.php?action=resultsPage">Submit</a>
                                     <i class="fa fa-angle-right ml-2"></i></button>
+
                             </div>
                         </div>
                     </div>
@@ -57,9 +58,13 @@
             </div>
         </div>
 
+
+
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+
     </body>
 </html>
+

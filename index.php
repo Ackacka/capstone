@@ -91,15 +91,18 @@ switch ($action) {
         $username = $_SESSION['loginUser'];
         $user = UserDB::getUserByUsername($username);
         $userID = $user['userID'];
-        $questions = array();        
-        $answers = array();
+        $questions = array(); 
+//        $myanswer= '';
+//        $myanswers = array();
+//        $answer = '';
+//        $answers = array();
         for ($i = 0; $i < 10; $i++){
             $question = QuestionDB::getRandomQuestion(1, 'Addition');
             array_push($questions, $question);           
         }
         $quiz = new Quiz($userID, 1, $questions);
         $totalCorrect = 0;
-//        var_dump($quiz);
+        var_dump($quiz);
 //        QuizDB::addQuiz($quiz);
         include './view/quizPage.php';
         die();
