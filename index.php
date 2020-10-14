@@ -91,15 +91,22 @@ switch ($action) {
         $username = $_SESSION['loginUser'];
         $user = UserDB::getUserByUsername($username);
         $userID = $user['userID'];
-        $questions = array();
+        $questions = array();        
+        $answers = array();
         for ($i = 0; $i < 10; $i++){
             $question = QuestionDB::getRandomQuestion(1, 'Addition');
-            array_push($questions, $question);
+            array_push($questions, $question);           
         }
         $quiz = new Quiz($userID, 1, $questions);
-        var_dump($quiz);
-        QuizDB::addQuiz($quiz);
+        $totalCorrect = 0;
+//        var_dump($quiz);
+//        QuizDB::addQuiz($quiz);
         include './view/quizPage.php';
+        die();
+        break;
+    case "resultsPage":
+        
+        include './view/resultsPage.php';
         die();
         break;
     case "showAddUser":
@@ -153,15 +160,6 @@ switch ($action) {
         $userType = filter_input(INPUT_POST, 'userType');
         $_SESSION['loginUser'] = $username;
         
-        if ($userType === "student") {
-                $roleTypeID = 1;
-            }elseif($userType === "teacher") {
-                $roleTypeID = 2;
-            }elseif ($userType === "parent") {
-                $roleTypeID = 3;
-            }else {
-                $roleTypeID = 4;
-            }
 
         $usernameError = '';
         if ($username == '') { // || strlen(trim($userName) <= 0))
@@ -247,12 +245,31 @@ switch ($action) {
             die();
         } else {
             
+            if ($userType === "student") {
+                $roleTypeID = 1;
                 $user = new Student($firstName, $lastName, $username, $pwdHash, $roleTypeID);
-                UserDB::addUser($user);
+                $userID = UserDB::addUser($user);
+//                ClassroomDB::addStudent($userID, $user);
+//                StudentDB::addStudent($user, (int)$userID);
+                
+//                StudentDB::addStudent($user);
+            }elseif($userType === "teacher") {
+                $roleTypeID = 2;
+                $user = new Teacher($firstName, $lastName, $username, $pwdHash, $roleTypeID);
+                $userID = UserDB::addUser($user);
+                TeacherDB::addTeacher($userID, $user);
+            }elseif ($userType === "parent") {
+                $roleTypeID = 3;
+                $user = new Parent($firstName, $lastName, $username, $pwdHash, $roleTypeID);
+                $userID = UserDB::addUser($user);
+            }else {
+                $roleTypeID = 4;
+                $user = new Admin($firstName, $lastName, $username, $pwdHash, $roleTypeID);
+                $userID = UserDB::addUser($user);
+            }
+                
                 include("./view/confirmation.php");
-                die();
-            
-            
+                die();                        
         }
         break;
     case "logOut":

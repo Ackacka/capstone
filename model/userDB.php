@@ -83,7 +83,9 @@ class UserDB {
             $statement->bindValue(':password', $password);
             $statement->bindValue(':roleTypeID', $roleTypeID);
             $statement->execute();
+            $userID = $db->lastInsertId();
             $statement->closeCursor();
+            return $userID;
         } catch (PDOException $e) {
             $error_message = $e->getMessage();
             include("index.php");
