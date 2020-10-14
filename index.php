@@ -92,23 +92,50 @@ switch ($action) {
         $user = UserDB::getUserByUsername($username);
         $userID = $user['userID'];
         $questions = array(); 
-//        $myanswer= '';
-//        $myanswers = array();
-//        $answer = '';
-//        $answers = array();
         for ($i = 0; $i < 10; $i++){
             $question = QuestionDB::getRandomQuestion(1, 'Addition');
             array_push($questions, $question);           
         }
         $quiz = new Quiz($userID, 1, $questions);
-        $totalCorrect = 0;
-        var_dump($quiz);
+//        var_dump($quiz);
 //        QuizDB::addQuiz($quiz);
         include './view/quizPage.php';
         die();
         break;
     case "resultsPage":
+        $totalCorrect = 0;
+        $answer1 = filter_input(INPUT_POST, 'answer1');
+        $answer2 = filter_input(INPUT_POST, 'answer2');
+        $answer3 = filter_input(INPUT_POST, 'answer3');
+        $answer4 = filter_input(INPUT_POST, 'answer4');
+        $answer5 = filter_input(INPUT_POST, 'answer5');
+        $answer6 = filter_input(INPUT_POST, 'answer6');
+        $answer7 = filter_input(INPUT_POST, 'answer7');
+        $answer8 = filter_input(INPUT_POST, 'answer8');
+        $answer9 = filter_input(INPUT_POST, 'answer9');
+        $answer10 = filter_input(INPUT_POST, 'answer10');
         
+        $correctAnswer1 = filter_input(INPUT_POST, 'correctAnswer1');
+        $correctAnswer2 = filter_input(INPUT_POST, 'correctAnswer2');
+        $correctAnswer3 = filter_input(INPUT_POST, 'correctAnswer3');
+        $correctAnswer4 = filter_input(INPUT_POST, 'correctAnswer4');
+        $correctAnswer5 = filter_input(INPUT_POST, 'correctAnswer5');
+        $correctAnswer6 = filter_input(INPUT_POST, 'correctAnswer6');
+        $correctAnswer7 = filter_input(INPUT_POST, 'correctAnswer7');
+        $correctAnswer8 = filter_input(INPUT_POST, 'correctAnswer8');
+        $correctAnswer9 = filter_input(INPUT_POST, 'correctAnswer9');
+        $correctAnswer10 = filter_input(INPUT_POST, 'correctAnswer10');
+        
+        if($answer1 === $correctAnswer1){ $totalCorrect++;}
+        if($answer2 === $correctAnswer2){ $totalCorrect++;}
+        if($answer3 === $correctAnswer3){ $totalCorrect++;}
+        if($answer4 === $correctAnswer4){ $totalCorrect++;}
+        if($answer5 === $correctAnswer5){ $totalCorrect++;}
+        if($answer6 === $correctAnswer6){ $totalCorrect++;}
+        if($answer7 === $correctAnswer7){ $totalCorrect++;}
+        if($answer8 === $correctAnswer8){ $totalCorrect++;}
+        if($answer9 === $correctAnswer9){ $totalCorrect++;}
+        if($answer10 === $correctAnswer10){ $totalCorrect++;}
         include './view/resultsPage.php';
         die();
         break;
@@ -134,9 +161,6 @@ switch ($action) {
         if (!isset($usernameError)) {
             $usernameError = '';
         }
-//        if (!isset($emailError)) {
-//            $emailError = '';
-//        }
         if (!isset($passwordError)) {
             $passwordError = '';
         }
