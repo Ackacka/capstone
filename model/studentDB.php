@@ -59,5 +59,23 @@ class StudentDB {
             exit();
         }
     }
+    
+    
+    public static function getStudentLevel($username) {               
+        $db = Database::getDB();
+        
+        $query = 'SELECT level FROM students s
+                  INNER JOIN users u
+                  ON u.userID = s.userID
+                  WHERE u.username = :username';
+
+        $statement = $db->prepare($query);
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $level = $statement->fetch();
+        $statement->closeCursor();
+        
+        return $level[0];
+    }
 }
 

@@ -29,7 +29,7 @@
                         <div class="border">               
                             <div class="question bg-white p-3 border-bottom">                               
                                 <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                                    <h4>Quiz Level (insert level)</h4>
+                                    <h4>Quiz Level: <?php echo htmlspecialchars($level[0]); ?></h4>
                                     <span id="timer" style="color: red; font-size: 30px;"></span>         
                                 </div>
                                 <form method="post" action="index.php">

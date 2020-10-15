@@ -59,7 +59,7 @@ switch ($action) {
             $passwordError = "";
             $_SESSION['loginUser'] = $username;
             $user = UserDB::getUserByUsername($username);
-            
+            $level = StudentDB::getStudentLevel($username);
             include './view/dashboard.php';
             die();
             break;
@@ -86,6 +86,7 @@ switch ($action) {
         break;
     case "dashboard":
         $username = $_SESSION['loginUser'];
+        $level = StudentDB::getStudentLevel($username);
         include './view/dashboard.php';
         die();
         break;
@@ -100,6 +101,7 @@ switch ($action) {
         }
         $_SESSION['questions'] = serialize($questions);
         $quiz = new Quiz($userID, 1, $questions);
+        $level = StudentDB::getStudentLevel($username);
 //        var_dump($quiz);
         QuizDB::addQuiz($quiz);
         include './view/quizPage.php';
