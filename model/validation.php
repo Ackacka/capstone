@@ -48,8 +48,8 @@ class Validation {
     //validate password
     public function PasswordValidation($arg) {
         
-        //requires a digit, special character, an uppercase letter, and must be 10+ characters long
-        $pwPattern = "/(?=.*[[:digit:]])(?=.*[[:punct:]])(?=.*[a-zA-Z]).*[[:print:]]{10,}/";
+        //requires a digit, an uppercase letter, and must be 8+ characters long
+        $pwPattern = "/(?=.*[[:digit:]])(?=.*[a-zA-Z]).*[[:print:]]{8,}/";
         
         if (preg_match($pwPattern, $arg)) {
             if (password_hash($arg, PASSWORD_BCRYPT) !== false) {

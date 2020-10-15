@@ -20,8 +20,7 @@
                 </ul>-->
                 <li  class="form-inline my-2 my-lg-0 navbar-nav nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Welcome!
-<!--                       Hello <?php echo htmlspecialchars($user["UserName"]) ?>!-->
+                        Welcome &nbsp;<?php echo htmlspecialchars($username) ?>!
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="index.php?action=loginPage"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>

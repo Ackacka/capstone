@@ -1,15 +1,30 @@
 body {
     width: 100%;
     margin: auto;
-    text-align: center;
+    text-align: left;
     background: url('../images/mainbackground.jpg') no-repeat center center fixed; 
     background-size: cover;
     height: 100%;
-    overflow: hidden;
+    color: lightgrey;
+}
+
+.container{
+	width: 500px;
+	height: 100%;
+	margin: 0 auto;
+        background-color: rgba(45, 63, 81,0.8);
+	margin-top: 30px;
+}
+
+h1, legend {
+    text-align: center;
 }
 
 h4, h2 {
     font-family: Helvetica,Arial,AppleGothic,sans-serif; 
+}
+.error {
+    color: red;
 }
 
 ol {

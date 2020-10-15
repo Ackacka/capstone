@@ -5,8 +5,21 @@
         <title>MathWhiz</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/9c754b173e.js" crossorigin="anonymous"></script>
+        
+        <script type="text/javascript"> 
+            var timerVar = setInterval(countTimer, 1000); //countimer function is called by setInterval function every second
+            var totalSeconds = 0;
+            function countTimer() {
+                ++totalSeconds;
+                var hour = Math.floor(totalSeconds /3600); //count hour
+                var minute = Math.floor((totalSeconds - hour*3600)/60); //count minute. subtract hours sechonds from total seconds
+                var seconds = totalSeconds - (hour*3600 + minute*60); //count seconds. subract hours and minutes seconds from total seconds
+                document.getElementById("timer").innerHTML = hour + ":" + minute + ":" + seconds; //put the result in a div called timer.
+            }
+        </script>
+        
     </head>
-    <body>
+    <body onload=display_ct();>
         <?php include_once('navigation.php'); ?>
         <!-- Page content -->
         <div class="main">
@@ -14,13 +27,13 @@
                 <div class="d-flex justify-content-center row">
                     <div class="col-md-10 col-lg-10">
                         <div class="border">               
-                            <div class="question bg-white p-3 border-bottom">
+                            <div class="question bg-white p-3 border-bottom">                               
                                 <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                                    <form method="post" action="index.php">
-                                        <input type="hidden" name="action" value="resultsPage">
-                                        <h4>Quiz Level (insert level)</h4>
-                                        <span>Count Down timer</span>
+                                    <h4>Quiz Level (insert level)</h4>
+                                    <span id="timer" style="color: red; font-size: 30px;"></span>         
                                 </div>
+                                <form method="post" action="index.php">
+                                        <input type="hidden" name="action" value="resultsPage">
                                 <?php for ($i = 0; $i < count($questions); $i++) { ?>
 
                                 </div>
@@ -37,7 +50,7 @@
                             </div>
 
                             <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
-                                <button class="btn btn-primary border-success align-items-center btn-success ml-auto" type="submit" value=''>                                                                       <input type="submit" value="Submit" class="btn-login"/>
+                                <button class="btn btn-primary border-success align-items-center btn-success ml-auto" type="submit" value=''>Submit
                                     <i class="fa fa-angle-right ml-2"></i></button>
                             </div>
                             </form>

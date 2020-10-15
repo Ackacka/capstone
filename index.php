@@ -5,8 +5,6 @@ if(isset($error_message)){
 }
 
 $lifetime = 60 * 60 * 24 * 14;    // 2 weeks in seconds
-//session_set_cookie_params($lifetime, '/');
-//session_start();
 if(session_id() == ''){
       session_start();
       setcookie(session_name(),session_id(),time()+$lifetime);
@@ -22,6 +20,7 @@ require_once './model/quiz.php';
 require_once './model/quizDB.php';
 require_once './model/question.php';
 require_once './model/questionDB.php';
+require_once './model/validation.php';
 
 
 
@@ -86,7 +85,7 @@ switch ($action) {
         die();
         break;
     case "dashboard":
-        
+        $username = $_SESSION['loginUser'];
         include './view/dashboard.php';
         die();
         break;
@@ -106,6 +105,7 @@ switch ($action) {
         die();
         break;
     case "resultsPage":
+        $username = $_SESSION['loginUser'];
         $totalCorrect = 0;
         $answer1 = filter_input(INPUT_POST, 'answer1');
         $answer2 = filter_input(INPUT_POST, 'answer2');
@@ -220,56 +220,16 @@ switch ($action) {
         } else {
             $lastNameError = '';
         }    
-
-        $pwdCapital = "Must have a capital letter";
-        $pwdLower = "Must have a lower case letter";
-        $pwdNum = "Must include a number";
-        $pwdNonword = "Must have a special character";
-        $pwdLength = "Must be at least 8 characters long";
-        $counter = 0;
-        $password_valid = true;
-
-        if (preg_match('/[A-Z+]/', $password)) {
-            $counter += 1;
-            $pwdCapital = "";
-        }
-        if (preg_match('/[a-z+]/', $password)) {
-            $counter += 1;
-            $pwdLower = "";
-        }
-        if (preg_match('/[0-9+]/', $password)) {
-            $counter += 1;
-            $pwdNum = "";
-        }
-        if (preg_match('/[\W+]/', $password)) {
-            $counter += 1;
-            $pwdNonword = "";
-        }
-        if ($counter < 3) {
-            $passwordError = "Must meet at least 3 of the 4 requirements";
-            $password_valid = false;
-        } else {
-            $pwdCapital = "";
-            $pwdLower = "";
-            $pwdNum = "";
-            $pwdNonword = "";
-            $passwordError = "";
-            $password_valid = true;
-        }
-        if (strlen($password) < 8) {
-            $passwordError = $pwdLength;
-            $password_valid = false;
-        } else {
-            $password_valid = true;
-        }
-
-        if ($password_valid) {
-            $pwdHash = password_hash($password, PASSWORD_BCRYPT);
+        
+        $passwordError ='';
+        $pwdHash = Validation::passwordValidation($password);
+        if ($pwdHash === false) {
+            $passwordError .= "Password requires a digit, an uppercase letter, and must be 8+ characters long" . "\n";
         }
 
 
         //write user information to database
-        if ($usernameError !== '' || $passwordError !== '') {
+        if ($usernameError !== '' || $passwordError !== '' || $firstNameError !== '' || $lastNameError !== '') {
             include("./view/addUser.php");
             die();
         } else {
@@ -280,10 +240,6 @@ switch ($action) {
                 $classroomID = -1;
                 $user = new Student($firstName, $lastName, $username, $pwdHash, $level, $classroomID);
                 $userID = StudentDB::addStudent($user);
-//                ClassroomDB::addStudent($userID, $user);
-//                StudentDB::addStudent($user, (int)$userID);
-                
-//                StudentDB::addStudent($user);
             }elseif($userType === "teacher") {
                 $roleTypeID = 2;
                 $user = new Teacher($firstName, $lastName, $username, $pwdHash, $roleTypeID);
@@ -298,7 +254,7 @@ switch ($action) {
                 $user = new Admin($firstName, $lastName, $username, $pwdHash, $roleTypeID);
                 $userID = UserDB::addUser($user);
             }
-            include "./view/confirmation.php";
+            include "./view/login.php";
             die(); 
         }
          
