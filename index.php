@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <?php 
+if(isset($error_message)){
+    var_dump($error_message);
+}
 
-//var_dump($error_message);
 $lifetime = 60 * 60 * 24 * 14;    // 2 weeks in seconds
 //session_set_cookie_params($lifetime, '/');
 //session_start();
@@ -13,6 +15,7 @@ if(session_id() == ''){
 require_once './model/database.php';
 require_once './model/user.php';
 require_once './model/student.php';
+require_once './model/studentDB.php';
 require_once './model/userDB.php';
 require_once './model/assessment.php';
 require_once './model/quiz.php';
@@ -98,7 +101,7 @@ switch ($action) {
         }
         $quiz = new Quiz($userID, 1, $questions);
 //        var_dump($quiz);
-//        QuizDB::addQuiz($quiz);
+        QuizDB::addQuiz($quiz);
         include './view/quizPage.php';
         die();
         break;
@@ -186,23 +189,22 @@ switch ($action) {
         $password = filter_input(INPUT_POST, 'password');
         $userType = filter_input(INPUT_POST, 'userType');
         $_SESSION['loginUser'] = $username;
-        
 
         $usernameError = '';
-        if ($username == '') { // || strlen(trim($userName) <= 0))
+        if ($username == '') { 
             $usernameError = 'Username is required.';
         } else if (strlen($username) < 4 || strlen($username) > 30) {
             $usernameError = 'Username must be between 4 and 30 characters';
         } else if (!preg_match('/^[A-Za-z]/', $username)) {
             $usernameError = 'Username must start with a letter';
-        } else if (!UserDB::uniqueUsernameTest($username) === false) {
+        } else if (UserDB::uniqueUsernameTest($username) === false) {
             $usernameError = 'Username already taken.';
         } else {
             $usernameError = '';
         } 
         
         $firstNameError = '';
-        if ($firstName == '') { // || strlen(trim($userName) <= 0))
+        if ($firstName == '') { 
             $firstNameError = 'First name is required.';
         } else if (strlen($lastName) > 60) {
             $firstNameError = 'First name must be less than 60 characters.';
@@ -211,7 +213,7 @@ switch ($action) {
         }
         
         $lastNameError = '';
-        if ($lastName == '') { // || strlen(trim($userName) <= 0))
+        if ($lastName == '') { 
             $lastNameError = 'Last name is required.';
         } else if (strlen($lastName) > 60) {
             $lastNameError = 'Last name must be less than 60 characters.';
@@ -273,9 +275,11 @@ switch ($action) {
         } else {
             
             if ($userType === "student") {
-                $roleTypeID = 1;
-                $user = new Student($firstName, $lastName, $username, $pwdHash, $roleTypeID);
-                $userID = UserDB::addUser($user);
+//                $roleTypeID = 1;
+                $level = 1;
+                $classroomID = -1;
+                $user = new Student($firstName, $lastName, $username, $pwdHash, $level, $classroomID);
+                $userID = StudentDB::addStudent($user);
 //                ClassroomDB::addStudent($userID, $user);
 //                StudentDB::addStudent($user, (int)$userID);
                 
@@ -294,15 +298,13 @@ switch ($action) {
                 $user = new Admin($firstName, $lastName, $username, $pwdHash, $roleTypeID);
                 $userID = UserDB::addUser($user);
             }
-                
-                include("./view/confirmation.php");
-                die();                        
+            include "./view/confirmation.php";
+            die(); 
         }
+         
         break;
     case "logOut":
-        $_SESSION['loginUser'] = 'defaultUser';
-        $_SESSION['state'] = [];
-        $_SESSION['event'] = [];
+        $_SESSION['loginUser'] = 'defaultUser';        
         include "./view/mainPage.php";
         die();
         break;

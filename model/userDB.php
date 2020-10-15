@@ -52,13 +52,17 @@ class UserDB {
 
     public static function uniqueUsernameTest($username) {
         $db = Database::getDB();        
-        $userQuery = 'SELECT username FROM users WHERE username = :username;';
-        $userStatement = $db->prepare($userQuery);
-        $userStatement->bindValue(':username', $username);
-        $userStatement->execute();
-        $uniqueUser = $userStatement->fetch();
-        $userStatement->closeCursor();
-        return $uniqueUser;
+        $query = 'SELECT username FROM users WHERE username = :username;';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->execute();
+        $userRow = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+//        return $uniqueUserRow['username'] ?? false;
+        if (!$userRow) {
+            return true;
+        }
+        return false;
     }
 
     public static function addUser($user) {
