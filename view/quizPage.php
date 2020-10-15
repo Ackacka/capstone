@@ -43,8 +43,12 @@
                                         <h5 class="mt-1 ml-2">&nbsp;<?php echo htmlspecialchars($questions[$i]->getQuestion()); ?>&nbsp;= ?</h5>
                                     </div>
                                     <div class="ans ml-2">
-                                        <label> Answer: <input type="text" name="answer<?php echo htmlspecialchars($i + 1) ?>"  value=""></label>
-                                        <input type="hidden" name="correctAnswer<?php echo htmlspecialchars($i + 1) ?>" value="<?php echo htmlspecialchars($questions[$i]->getAnswer()); ?>">
+                                        <label> Answer: <input type="text" name="answers[]"  value=""></label>
+<!--                                        <input type="hidden" name="correctAnswer
+                                            <?php // echo htmlspecialchars($i + 1) ?>
+                                               " value="
+                                                   <?php // echo htmlspecialchars($questions[$i]->getAnswer()); ?>
+                                               ">-->
                                     </div>                     
                                 <?php } ?>                        
                             </div>
