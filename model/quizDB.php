@@ -12,7 +12,7 @@ class QuizDB {
             $userID = $quiz->getStudentID();
             $level = $quiz->getDifficulty();
         
-//        try { //got some weird errors  when working on try, will get to later
+        try { //got some weird errors  when working on try, will get to later
             $query = 'INSERT INTO assessment
                         (assessmentTypeID, userID, level)
                       VALUES
@@ -35,11 +35,11 @@ class QuizDB {
             $statement->bindValue(':assessmentID', $assessmentID);
             $statement->execute();
             $statement->closeCursor();
-//        } catch (PDOException $e) {
-//            $error_message = $e->getMessage();
-//            include("index.php");
-//            exit();
-//        }
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            include("index.php");
+            exit();
+        }
         
         
         
