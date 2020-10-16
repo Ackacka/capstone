@@ -31,7 +31,7 @@ input[type="text"],input[type="password"]{
 }
 
 .form-input::before{
-	content: "\f007";
+	content: "\f023";
 	font-family: "FontAwesome";
 	padding-left: 07px;
 	padding-top: 40px;
@@ -42,7 +42,7 @@ input[type="text"],input[type="password"]{
 }
 
 .form-input:nth-child(2)::before{
-	content: "\f023";
+	content: "\f007";
 }
 
 .btn-login{
