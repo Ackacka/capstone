@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2020 at 04:16 AM
+-- Generation Time: Oct 16, 2020 at 03:50 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `mathwhiz`
 --
+CREATE DATABASE IF NOT EXISTS `mathwhiz` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `mathwhiz`;
 
 -- --------------------------------------------------------
 
@@ -44,7 +46,7 @@ CREATE TABLE `assessment` (
 --
 
 INSERT INTO `assessment` (`assessmentID`, `assessmentTypeID`, `userID`, `questionsCorrect`, `questionsWrong`, `totalScore`, `startDateTime`, `endDateTime`, `level`) VALUES
-(129, 2, 22, 0, 0, 0, '2020-10-14 15:02:47', '2020-10-14 15:02:47', 1);
+(140, 2, 52, 0, 0, 0, '2020-10-15 16:32:38', '2020-10-15 16:32:38', 1);
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,8 @@ CREATE TABLE `classrooms` (
 --
 
 INSERT INTO `classrooms` (`classroomID`, `teacherID`, `studentID`) VALUES
-(-1, NULL, 51);
+(-1, NULL, 51),
+(-1, NULL, 52);
 
 -- --------------------------------------------------------
 
@@ -145,7 +148,7 @@ CREATE TABLE `quiz` (
 --
 
 INSERT INTO `quiz` (`assessmentID`, `passFail`) VALUES
-(129, 0);
+(140, 0);
 
 -- --------------------------------------------------------
 
@@ -185,7 +188,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`userID`, `level`, `classroomID`) VALUES
-(51, 1, -1);
+(51, 1, -1),
+(52, 1, -1);
 
 -- --------------------------------------------------------
 
@@ -229,10 +233,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `firstName`, `lastName`, `username`, `password`, `roleTypeID`) VALUES
-(22, 'Nate', 'Luginbill', 'nluginbill', '$2y$10$iTdax16m8IkpW9.Ujl1hMeGtk8am0afdjAVg.zbQx6smDWsdHG6PC', 3),
 (49, 'test', 'one', 'test1', '$2y$10$caQyLbbMH2/j5GNh1/qaiuYfQ9XFFCzNlHmyoyHg81hhbaquX3bG2', 1),
 (50, 'test', 'two', 'test2', '$2y$10$ZAJTESPzPSDMb6n38VxLxegJ0CrTzaQ7INmCCozn47LqT2qb5mGbS', 1),
-(51, 'test', 'four', 'test4', '$2y$10$2eSsZgYl7cuzaULH87SOq.DJ.N1IPOZ2P8SRFs4PhyJPPdH8LoQQC', 1);
+(51, 'test', 'four', 'test4', '$2y$10$2eSsZgYl7cuzaULH87SOq.DJ.N1IPOZ2P8SRFs4PhyJPPdH8LoQQC', 1),
+(52, 'Nate', 'Luginbill', 'nluginbill', '$2y$10$Z5aWDhNinBZEQmtAEouSBOVtXceZ5MT9EG0RcH7rCWfx7SUewW3x6', 1);
 
 --
 -- Indexes for dumped tables
@@ -318,7 +322,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `assessmentID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `assessmentID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -336,7 +340,7 @@ ALTER TABLE `roletype`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `userID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- Constraints for dumped tables
