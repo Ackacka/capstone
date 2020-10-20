@@ -121,7 +121,7 @@ switch ($action) {
                 $totalCorrect++;
             }
         }
-        
+        $percentage = $totalCorrect / count($questions) * 100;
         $passFail = 0;
         if (($totalCorrect / count($questions)) >= .70) {
             $passFail = 1;

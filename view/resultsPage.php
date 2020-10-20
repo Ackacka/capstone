@@ -8,28 +8,26 @@
 
     </head>
     <body>
-        <?php include_once('navigation.php'); ?> 
+       <?php if (!isset($username)) {$username = '';} ?>
+       <?php include_once('navigation.php'); ?> 
 
         <div class="main">
             <div class="container mt-5">
-                <div class="d-flex justify-content-center row">
-                    <div class="col-md-10 col-lg-10">
-                        <div class="border">
-                            <div class="question bg-white p-3 border-bottom">
-                                <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                                    <h4>Quiz Results</h4>
-                                </div>
-                            </div>
-                            <div class="question bg-white p-3 border-bottom">
-                                <div class="d-flex flex-row align-items-center question-title">
-                                    <h3 class="text-danger">Questions Right</h3>
-                                </div>
-                                <div class=" ans ml-2">
-                                    <label><?php echo htmlspecialchars ($totalCorrect)?> out of 10</label>
-                                </div> 
-                            </div>
-                        </div>
+                <div class="border" >
+                    <div class="text-center p-3 border-bottom" style="background-color: rgba(144, 238, 144, 0.3);">
+                        <h2>Quiz Results</h2>
                     </div>
+                    <div class="text-center p-3 border-bottom" style="height: 300px;">
+                        <?php if ($passFail == 1) { ?>
+                        <h3 style="color: green;">You Passed!</h3>
+                        <?php } else { ?>
+                        <h3 style="color: red;">You Failed!</h3>
+                        <?php } ?>                       
+                        <br>
+                        <p style="font-size: 80px; font-weight: bold;"><?php echo htmlspecialchars($percentage); ?>%</p>
+                        <p style="font-size: 20px;"><?php echo htmlspecialchars ($totalCorrect)?> out of 10</p>
+                    </div>
+                </div>
                 </div>
             </div>
 
