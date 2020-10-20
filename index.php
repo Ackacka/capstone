@@ -102,8 +102,8 @@ switch ($action) {
         $_SESSION['questions'] = serialize($questions);
         $quiz = new Quiz($userID, 1, $questions);
         $level = StudentDB::getStudentLevel($username);
-//        var_dump($quiz);
-        QuizDB::addQuiz($quiz);
+
+        $assessmentID = QuizDB::addQuiz($quiz);
         include './view/quizPage.php';
         die();
         break;
@@ -112,6 +112,8 @@ switch ($action) {
         $questions = unserialize($_SESSION['questions']);
         $answers = $_POST['answers'];
         $totalCorrect = 0;
+        $quizID = $_POST['quizID'];
+        $dt = date('Y-m-d h:i:s');
         
         //check answers, however many
         for ($i = 0; $i < count($questions); $i++){
@@ -119,6 +121,13 @@ switch ($action) {
                 $totalCorrect++;
             }
         }
+        
+        $passFail = 0;
+        if (($totalCorrect / count($questions)) >= .70) {
+            $passFail = 1;
+        }
+        QuizDB::updateQuiz($quizID, $totalCorrect, $questions, $dt);
+        QuizDB::passOrFailQuiz($quizID, $passFail);
         
         include './view/resultsPage.php';
         die();

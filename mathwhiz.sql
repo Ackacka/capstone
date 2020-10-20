@@ -229,14 +229,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`userID`, `firstName`, `lastName`, `username`, `password`, `roleTypeID`) VALUES
-(49, 'test', 'one', 'test1', '$2y$10$caQyLbbMH2/j5GNh1/qaiuYfQ9XFFCzNlHmyoyHg81hhbaquX3bG2', 1),
-(50, 'test', 'two', 'test2', '$2y$10$ZAJTESPzPSDMb6n38VxLxegJ0CrTzaQ7INmCCozn47LqT2qb5mGbS', 1),
-(51, 'test', 'four', 'test4', '$2y$10$2eSsZgYl7cuzaULH87SOq.DJ.N1IPOZ2P8SRFs4PhyJPPdH8LoQQC', 1),
-(52, 'Nate', 'Luginbill', 'nluginbill', '$2y$10$Z5aWDhNinBZEQmtAEouSBOVtXceZ5MT9EG0RcH7rCWfx7SUewW3x6', 1);
 
 --
 -- Indexes for dumped tables
@@ -382,7 +374,7 @@ ALTER TABLE `students`
 -- Constraints for table `teachers`
 --
 ALTER TABLE `teachers`
-  ADD CONSTRAINT `fk_teachers_classroom` FOREIGN KEY (`classroomID`) REFERENCES `classroom` (`classroomID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_teachers_classroom` FOREIGN KEY (`classroomID`) REFERENCES `classrooms` (`classroomID`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_teachers_users` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE;
 
 --

@@ -34,6 +34,7 @@
                                 </div>
                                 <form method="post" action="index.php">
                                         <input type="hidden" name="action" value="resultsPage">
+                                        <input type="hidden" name="quizID" value="<?php echo $assessmentID ;?>"> 
                                 <?php for ($i = 0; $i < count($questions); $i++) { ?>
 
                                 </div>
