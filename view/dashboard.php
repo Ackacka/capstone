@@ -33,7 +33,9 @@
                             <div class="question bg-white p-3 border-bottom">
                                 <div class="d-flex flex-row justify-content-between align-items-center mcq">
                                     <h4>Last quiz taken: <?php echo $usersLatestQuiz->getEnd(); ?></h4>
-                                    <h5>Result: <?php echo $latestQuizResult ?>, with <?php echo $usersLatestQuiz->getQuestionsCorrect(); ?></h5>
+                                    <br>
+                                    <h5>Result: <?php echo $latestQuizResult ?>, with <?php echo $usersLatestQuiz->getQuestionsCorrect() ?> questions correct out of 
+                                    <?php echo $nQuestions ?></h5>
                                 </div>
                             </div>
                         </div>

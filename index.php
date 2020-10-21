@@ -63,7 +63,7 @@ switch ($action) {
         $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
         $pwdHash = userDB::getPassword($username);
-
+        
 
         if (password_verify($password, $pwdHash)) {
             $passwordError = "";
@@ -72,6 +72,7 @@ switch ($action) {
             $usersQuizzes;
             $usersLatestQuiz = false;
             $latestQuizResult = '';
+            $nQuestions = 0;
             if (QuizDB::getQuizzesByUser($student->getUserID()) !== false) {
                 $usersQuizzes = QuizDB::getQuizzesByUser($student->getUserID());
             }
@@ -82,6 +83,7 @@ switch ($action) {
                 } else {
                     $latestQuizResult = 'Passed';
                 }
+                $nQuestions = $usersLatestQuiz->getQuestionsCorrect() + $usersLatestQuiz->getQuestionsWrong();
             }
             include './view/dashboard.php';
             die();
@@ -112,6 +114,7 @@ switch ($action) {
         $usersQuizzes = null;
         $usersLatestQuiz = false;
         $latestQuizResult = '';
+        $nQuestions = 0;
         if (QuizDB::getQuizzesByUser($student->getUserID()) !== false) {
             $usersQuizzes = QuizDB::getQuizzesByUser($student->getUserID());
         }
@@ -122,6 +125,7 @@ switch ($action) {
             } else {
                 $latestQuizResult = 'Passed';
             }
+            $nQuestions = $usersLatestQuiz->getQuestionsCorrect() + $usersLatestQuiz->getQuestionsWrong();
         }
         include './view/dashboard.php';
         die();
@@ -295,4 +299,7 @@ switch ($action) {
         die();
         break;
 }
+
+
+
 ?>
