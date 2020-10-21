@@ -44,16 +44,80 @@ class QuizDB {
         }
     }
 
+    public static function getLatestQuizByUser($userID){
+        $db = Database::getDB();
+        $query = 'SELECT * FROM assessment a
+                  INNER JOIN quiz q ON a.assessmentID = q.assessmentID
+                  WHERE a.userID = :userID
+                  ORDER BY a.endDateTime DESC
+                  LIMIT 1';
+        $statement = $db->prepare($query);
+        $statement->bindValue(":userID", $userID);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        
+        if ($row === false) {
+            return false;
+        }
+        
+        $quiz = new Quiz($row['userID'], $row['level'], $questions = array());
+        $quiz->setAssessmentID($row['assessmentID']);
+        $quiz->setEnd($row['endDateTime']);
+        $quiz->setStart($row['startDateTime']);
+        $quiz->setQuestionsCorrect($row['questionsCorrect']);
+        $quiz->setQuestionsWrong($row['questionsWrong']);
+        $quiz->setPassFail($row['passFail']);
+        return $quiz;
+    }
+    
+    public static function getQuizzesByUser($userID){
+        $db = Database::getDB();
+        $query = 'SELECT * FROM assessment a
+                  INNER JOIN quiz q ON a.assessmentID = q.assessmentID
+                  WHERE a.userID = :userID';
+        $statement = $db->prepare($query);
+        $statement->bindValue(":userID", $userID);
+        $statement->execute();
+        $rows = $statement->fetchAll();
+        $statement->closeCursor();
+        
+        $quizzes = null;
+        
+        foreach ($rows as $row) {
+            $quiz = new Quiz($row['userID'], $row['level'], $questions = array());
+            $quiz->setAssessmentID($row['assessmentID']);
+            $quiz->setEnd($row['endDateTime']);
+            $quiz->setStart($row['startDateTime']);
+            $quiz->setQuestionsCorrect($row['questionsCorrect']);
+            $quiz->setQuestionsWrong($row['questionsWrong']);
+            $quiz->setPassFail($row['passFail']);
+            
+            $quizzes[] = $quiz;
+        }
+        return $quizzes;
+    }
+    
     public static function getQuiz($quizID) {
         $db = Database::getDB();
         $query = 'SELECT * FROM assessment a
                   INNER JOIN quiz q ON a.assessmentID = q.assessmentID
-                  WHERE assessmentID = :assessmentID';
+                  WHERE a.assessmentID = :assessmentID';
         $statement = $db->prepare($query);
         $statement->bindValue(":assessmentID", $quizID);
         $statement->execute();
-        $row = $statement->fetch();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
+        
+        $quiz = new Quiz($row['userID'], $row['level'], $questions = array());
+        $quiz->setAssessmentID($row['assessmentID']);
+        $quiz->setEnd($row['endDateTime']);
+        $quiz->setStart($row['startDateTime']);
+        $quiz->setQuestionsCorrect($row['questionsCorrect']);
+        $quiz->setQuestionsWrong($row['questionsWrong']);
+        $quiz->setPassFail($row['passFail']);
+        
+        return $quiz;
     }
 
     public static function updateQuiz($quizID, $totalCorrect, $questions, $dt) {

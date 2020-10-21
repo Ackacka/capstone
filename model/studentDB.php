@@ -41,7 +41,7 @@ class StudentDB {
             $statement->execute();
             $statement->closeCursor();
             
-            $query = 'INSERT INTO classrooms
+            $query = 'INSERT INTO classroomteacherstudent
                         (classroomID, studentID)
                       VALUES
                         (:classroomID, :userID)';
@@ -60,6 +60,26 @@ class StudentDB {
         }
     }
     
+    
+    public static function getStudent($username) {
+        $db = Database::getDB();
+        
+        $query = 'SELECT * FROM students s
+                  INNER JOIN users u
+                  ON u.userID = s.userID
+                  WHERE u.username = :username';
+
+        $statement = $db->prepare($query);
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+
+        $student = new Student($row['firstName'], $row['lastName'], $row['username'], $row['password'], $row['level'], $row['classroomID']);
+        $student->setUserID($row['userID']);
+        
+        return $student;
+    }
     
     public static function getStudentLevel($username) {               
         $db = Database::getDB();

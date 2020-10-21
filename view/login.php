@@ -29,7 +29,7 @@
                     <br>
                     <span style="color: red;"> <?php echo htmlspecialchars($passwordError) ?></span>
                     <br><br>
-		<input type="submit" type="submit" value="LOGIN" class="btn-login"/>                       
+		<input type="submit" value="LOGIN" class="btn-login"/>                       
 		</form>
         
                 <p><a href="index.php?action=showAddUser">Register</a><br></p>

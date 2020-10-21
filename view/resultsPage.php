@@ -26,6 +26,7 @@
                         <br>
                         <p style="font-size: 80px; font-weight: bold;"><?php echo htmlspecialchars($percentage); ?>%</p>
                         <p style="font-size: 20px;"><?php echo htmlspecialchars ($totalCorrect)?> out of 10</p>
+                        <p style="font-size: 20px;">in <?php echo gmdate("H \h i \m s \s", $inSeconds) ?></p>
                     </div>
                 </div>
                 </div>

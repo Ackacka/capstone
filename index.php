@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<?php 
-if(isset($error_message)){
+<?php
+if (isset($error_message)) {
     var_dump($error_message);
 }
 
+date_default_timezone_set('America/Chicago');
+
 $lifetime = 60 * 60 * 24 * 14;    // 2 weeks in seconds
-if(session_id() == ''){
-      session_start();
-      setcookie(session_name(),session_id(),time()+$lifetime);
-   }
+if (session_id() == '') {
+    session_start();
+    setcookie(session_name(), session_id(), time() + $lifetime);
+}
 
 require_once './model/database.php';
 require_once './model/user.php';
@@ -42,28 +44,48 @@ switch ($action) {
         die();
         break;
     case "loginPage":
-        if(!isset($usernameError)){$usernameError = '';}
-        if(!isset($passwordError)){$passwordError = '';}
-        if(!isset($username)){$username = '';}
-        if(!isset($password)) {$password = '';}
+        if (!isset($usernameError)) {
+            $usernameError = '';
+        }
+        if (!isset($passwordError)) {
+            $passwordError = '';
+        }
+        if (!isset($username)) {
+            $username = '';
+        }
+        if (!isset($password)) {
+            $password = '';
+        }
         include 'view/login.php';
         die();
         break;
     case "userLogin":
         $username = filter_input(INPUT_POST, 'username');
-        $password = filter_input(INPUT_POST, 'password');        
+        $password = filter_input(INPUT_POST, 'password');
         $pwdHash = userDB::getPassword($username);
 
 
         if (password_verify($password, $pwdHash)) {
             $passwordError = "";
             $_SESSION['loginUser'] = $username;
-            $user = UserDB::getUserByUsername($username);
-            $level = StudentDB::getStudentLevel($username);
+            $student = StudentDB::getStudent($username);
+            $usersQuizzes;
+            $usersLatestQuiz = false;
+            $latestQuizResult = '';
+            if (QuizDB::getQuizzesByUser($student->getUserID()) !== false) {
+                $usersQuizzes = QuizDB::getQuizzesByUser($student->getUserID());
+            }
+            if (QuizDB::getLatestQuizByUser($student->getUserID()) !== false) {
+                $usersLatestQuiz = QuizDB::getLatestQuizByUser($student->getUserID());
+                if ($usersLatestQuiz->getPassFail() === '0') {
+                    $latestQuizResult = 'Failed';
+                } else {
+                    $latestQuizResult = 'Passed';
+                }
+            }
             include './view/dashboard.php';
             die();
             break;
-            
         } else {
             $passwordError = "Password is invalid.";
         }
@@ -86,7 +108,21 @@ switch ($action) {
         break;
     case "dashboard":
         $username = $_SESSION['loginUser'];
-        $level = StudentDB::getStudentLevel($username);
+        $student = StudentDB::getStudent($username);
+        $usersQuizzes = null;
+        $usersLatestQuiz = false;
+        $latestQuizResult = '';
+        if (QuizDB::getQuizzesByUser($student->getUserID()) !== false) {
+            $usersQuizzes = QuizDB::getQuizzesByUser($student->getUserID());
+        }
+        if (QuizDB::getLatestQuizByUser($student->getUserID()) !== false) {
+            $usersLatestQuiz = QuizDB::getLatestQuizByUser($student->getUserID());
+            if ($usersLatestQuiz->getPassFail() === '0') {
+                $latestQuizResult = 'Failed';
+            } else {
+                $latestQuizResult = 'Passed';
+            }
+        }
         include './view/dashboard.php';
         die();
         break;
@@ -94,10 +130,10 @@ switch ($action) {
         $username = $_SESSION['loginUser'];
         $user = UserDB::getUserByUsername($username);
         $userID = $user['userID'];
-        $questions = array(); 
-        for ($i = 0; $i < 10; $i++){
+        $questions = array();
+        for ($i = 0; $i < 10; $i++) {
             $question = QuestionDB::getRandomQuestion(1, 'Addition');
-            array_push($questions, $question);           
+            array_push($questions, $question);
         }
         $_SESSION['questions'] = serialize($questions);
         $quiz = new Quiz($userID, 1, $questions);
@@ -107,17 +143,18 @@ switch ($action) {
         include './view/quizPage.php';
         die();
         break;
-    case "resultsPage":   
+    case "resultsPage":
         $username = $_SESSION['loginUser'];
         $questions = unserialize($_SESSION['questions']);
         $answers = $_POST['answers'];
         $totalCorrect = 0;
         $quizID = $_POST['quizID'];
-        $dt = date('Y-m-d h:i:s');
-        
+
+        $dt = date('Y-m-d H:i:s');
+
         //check answers, however many
-        for ($i = 0; $i < count($questions); $i++){
-            if($questions[$i]->getAnswer() === $answers[$i]){
+        for ($i = 0; $i < count($questions); $i++) {
+            if ($questions[$i]->getAnswer() === $answers[$i]) {
                 $totalCorrect++;
             }
         }
@@ -128,7 +165,11 @@ switch ($action) {
         }
         QuizDB::updateQuiz($quizID, $totalCorrect, $questions, $dt);
         QuizDB::passOrFailQuiz($quizID, $passFail);
-        
+        $quiz = QuizDB::getQuiz($quizID);
+        $endTime = date_create($quiz->getEnd());
+        $startTime = date_create($quiz->getStart());
+        $timeCompleted = date_diff($endTime, $startTime, true);
+        $inSeconds = (new DateTime())->setTimeStamp(0)->add($timeCompleted)->getTimeStamp();
         include './view/resultsPage.php';
         die();
         break;
@@ -175,13 +216,13 @@ switch ($action) {
     case "addUser":
         $firstName = filter_input(INPUT_POST, 'firstName');
         $lastName = filter_input(INPUT_POST, 'lastName');
-        $username = filter_input(INPUT_POST, 'username');        
+        $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
         $userType = filter_input(INPUT_POST, 'userType');
         $_SESSION['loginUser'] = $username;
 
         $usernameError = '';
-        if ($username == '') { 
+        if ($username == '') {
             $usernameError = 'Username is required.';
         } else if (strlen($username) < 4 || strlen($username) > 30) {
             $usernameError = 'Username must be between 4 and 30 characters';
@@ -191,27 +232,27 @@ switch ($action) {
             $usernameError = 'Username already taken.';
         } else {
             $usernameError = '';
-        } 
-        
+        }
+
         $firstNameError = '';
-        if ($firstName == '') { 
+        if ($firstName == '') {
             $firstNameError = 'First name is required.';
         } else if (strlen($lastName) > 60) {
             $firstNameError = 'First name must be less than 60 characters.';
         } else {
             $firstNameError = '';
         }
-        
+
         $lastNameError = '';
-        if ($lastName == '') { 
+        if ($lastName == '') {
             $lastNameError = 'Last name is required.';
         } else if (strlen($lastName) > 60) {
             $lastNameError = 'Last name must be less than 60 characters.';
         } else {
             $lastNameError = '';
-        }    
-        
-        $passwordError ='';
+        }
+
+        $passwordError = '';
         $pwdHash = Validation::passwordValidation($password);
         if ($pwdHash === false) {
             $passwordError .= "Password requires a digit, an uppercase letter, and must be 8+ characters long" . "\n";
@@ -223,34 +264,33 @@ switch ($action) {
             include("./view/addUser.php");
             die();
         } else {
-            
+
             if ($userType === "student") {
-//                $roleTypeID = 1;
                 $level = 1;
                 $classroomID = -1;
                 $user = new Student($firstName, $lastName, $username, $pwdHash, $level, $classroomID);
                 $userID = StudentDB::addStudent($user);
-            }elseif($userType === "teacher") {
+            } elseif ($userType === "teacher") {
                 $roleTypeID = 2;
                 $user = new Teacher($firstName, $lastName, $username, $pwdHash, $roleTypeID);
                 $userID = UserDB::addUser($user);
                 TeacherDB::addTeacher($userID, $user);
-            }elseif ($userType === "parent") {
+            } elseif ($userType === "parent") {
                 $roleTypeID = 3;
                 $user = new Parent($firstName, $lastName, $username, $pwdHash, $roleTypeID);
                 $userID = UserDB::addUser($user);
-            }else {
+            } else {
                 $roleTypeID = 4;
                 $user = new Admin($firstName, $lastName, $username, $pwdHash, $roleTypeID);
                 $userID = UserDB::addUser($user);
             }
             include "./view/login.php";
-            die(); 
+            die();
         }
-         
+
         break;
     case "logOut":
-        $_SESSION['loginUser'] = 'defaultUser';        
+        $_SESSION['loginUser'] = 'defaultUser';
         include "./view/mainPage.php";
         die();
         break;

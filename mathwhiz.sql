@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2020 at 03:50 PM
+-- Generation Time: Oct 21, 2020 at 05:25 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -35,18 +35,10 @@ CREATE TABLE `assessment` (
   `userID` int(255) NOT NULL,
   `questionsCorrect` int(100) NOT NULL,
   `questionsWrong` int(100) NOT NULL,
-  `totalScore` int(100) NOT NULL,
   `startDateTime` datetime NOT NULL DEFAULT current_timestamp(),
   `endDateTime` datetime NOT NULL DEFAULT current_timestamp(),
   `level` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `assessment`
---
-
-INSERT INTO `assessment` (`assessmentID`, `assessmentTypeID`, `userID`, `questionsCorrect`, `questionsWrong`, `totalScore`, `startDateTime`, `endDateTime`, `level`) VALUES
-(140, 2, 52, 0, 0, 0, '2020-10-15 16:32:38', '2020-10-15 16:32:38', 1);
 
 -- --------------------------------------------------------
 
@@ -76,17 +68,35 @@ INSERT INTO `assessmenttype` (`assessmentTypeID`, `assessmentTypeName`) VALUES
 
 CREATE TABLE `classrooms` (
   `classroomID` int(11) NOT NULL,
-  `teacherID` int(11) DEFAULT NULL,
-  `studentID` int(11) DEFAULT NULL
+  `name` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `classrooms`
 --
 
-INSERT INTO `classrooms` (`classroomID`, `teacherID`, `studentID`) VALUES
-(-1, NULL, 51),
-(-1, NULL, 52);
+INSERT INTO `classrooms` (`classroomID`, `name`) VALUES
+(-1, 'Default');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `classroomteacherstudent`
+--
+
+CREATE TABLE `classroomteacherstudent` (
+  `classroomID` int(11) NOT NULL,
+  `teacherID` int(11) DEFAULT NULL,
+  `studentID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `classroomteacherstudent`
+--
+
+INSERT INTO `classroomteacherstudent` (`classroomID`, `teacherID`, `studentID`) VALUES
+(-1, NULL, 55),
+(-1, NULL, 56);
 
 -- --------------------------------------------------------
 
@@ -143,13 +153,6 @@ CREATE TABLE `quiz` (
   `passFail` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `quiz`
---
-
-INSERT INTO `quiz` (`assessmentID`, `passFail`) VALUES
-(140, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -188,8 +191,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`userID`, `level`, `classroomID`) VALUES
-(51, 1, -1),
-(52, 1, -1);
+(55, 1, -1),
+(56, 1, -1);
 
 -- --------------------------------------------------------
 
@@ -198,8 +201,7 @@ INSERT INTO `students` (`userID`, `level`, `classroomID`) VALUES
 --
 
 CREATE TABLE `teachers` (
-  `userID` int(255) NOT NULL,
-  `classroomID` int(10) NOT NULL
+  `userID` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -229,6 +231,12 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userID`, `firstName`, `lastName`, `username`, `password`, `roleTypeID`) VALUES
+(55, 'Nathaniel', 'Luginbill', 'nluginbill', '$2y$10$z.TwCyGY87yq5Sw5r5rdOOWgafx0AZq/tUfXtEexHjfC.rnQyQy1O', 1),
+(56, 'Nathaniel', 'Luginbill', 'nluginbill2', '$2y$10$w4JkCrmz7VSb.qanuMyUbOPUlRZIF6ZRxkxF9fYH3Z9y3.4PkvG4y', 1);
 
 --
 -- Indexes for dumped tables
@@ -252,8 +260,15 @@ ALTER TABLE `assessmenttype`
 -- Indexes for table `classrooms`
 --
 ALTER TABLE `classrooms`
+  ADD PRIMARY KEY (`classroomID`);
+
+--
+-- Indexes for table `classroomteacherstudent`
+--
+ALTER TABLE `classroomteacherstudent`
   ADD KEY `fk_classroom_student` (`studentID`),
-  ADD KEY `fk_classroom_teacher` (`teacherID`);
+  ADD KEY `fk_classroom_teacher` (`teacherID`),
+  ADD KEY `fk_classroom` (`classroomID`);
 
 --
 -- Indexes for table `drill`
@@ -289,8 +304,7 @@ ALTER TABLE `students`
 -- Indexes for table `teachers`
 --
 ALTER TABLE `teachers`
-  ADD PRIMARY KEY (`userID`),
-  ADD KEY `fk_teachers_classroom` (`classroomID`);
+  ADD PRIMARY KEY (`userID`);
 
 --
 -- Indexes for table `test`
@@ -314,7 +328,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `assessmentID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `assessmentID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
+
+--
+-- AUTO_INCREMENT for table `classrooms`
+--
+ALTER TABLE `classrooms`
+  MODIFY `classroomID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -332,7 +352,7 @@ ALTER TABLE `roletype`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `userID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- Constraints for dumped tables
@@ -346,9 +366,10 @@ ALTER TABLE `assessment`
   ADD CONSTRAINT `fk_assessment_students` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE;
 
 --
--- Constraints for table `classrooms`
+-- Constraints for table `classroomteacherstudent`
 --
-ALTER TABLE `classrooms`
+ALTER TABLE `classroomteacherstudent`
+  ADD CONSTRAINT `fk_classroom` FOREIGN KEY (`classroomID`) REFERENCES `classrooms` (`classroomID`),
   ADD CONSTRAINT `fk_classroom_student` FOREIGN KEY (`studentID`) REFERENCES `students` (`userID`),
   ADD CONSTRAINT `fk_classroom_teacher` FOREIGN KEY (`teacherID`) REFERENCES `teachers` (`userID`);
 
@@ -369,13 +390,6 @@ ALTER TABLE `quiz`
 --
 ALTER TABLE `students`
   ADD CONSTRAINT `fk_students_users` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE;
-
---
--- Constraints for table `teachers`
---
-ALTER TABLE `teachers`
-  ADD CONSTRAINT `fk_teachers_classroom` FOREIGN KEY (`classroomID`) REFERENCES `classrooms` (`classroomID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_teachers_users` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `test`
